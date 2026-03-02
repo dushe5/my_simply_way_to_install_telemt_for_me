@@ -1,7 +1,7 @@
 #!/bin/bash
 # Скрипт установки Telemt через Docker
 # Автор: ваш ник
-# Основной Docker-образ: https://github.com/whn0thacked/telemt-docker
+# Основной https://github.com/An0nX/telemt-docker
 # ⚠️ Внимание! Скрипт выполняет команды на сервере
 # Использование: sh install.sh <TLS_DOMAIN>
 
