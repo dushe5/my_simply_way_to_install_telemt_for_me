@@ -4,13 +4,6 @@
 # ⚠️ Внимание! Скрипт выполняет команды на сервере
 # Использование: sh install.sh <TLS_DOMAIN>
 
-# Проверка параметра TLS_DOMAIN
-if [ -z "$1" ]; then
-    echo "Использование: $0 <TLS_DOMAIN>"
-    exit 1
-fi
-
-TLS_DOMAIN="$1"
 FOLDER="TELEMT"
 
 echo "⚠️ Внимание! Этот скрипт выполнит команды на вашем сервере."
@@ -19,7 +12,8 @@ if [ "$confirm" != "y" ]; then
     echo "Отмена."
     exit 1
 fi
-
+read -p "Domain name (Fake TLS): " domain < dev/tty
+TLS_DOMAIN="$domain"
 # Создать папку и перейти в неё
 mkdir -p "$FOLDER"
 cd "$FOLDER" || exit
