@@ -7,12 +7,12 @@
 FOLDER="TELEMT"
 
 echo "⚠️ Внимание! Этот скрипт выполнит команды на вашем сервере."
-read -p "Продолжить? (y/N) " confirm < dev/tty
+read -p "Продолжить? (y/N) " confirm < /dev/tty
 if [ "$confirm" != "y" ]; then
     echo "Отмена."
     exit 1
 fi
-read -p "Domain name (Fake TLS): " domain < dev/tty
+read -p "Domain name (Fake TLS): " domain < /dev/tty
 TLS_DOMAIN="$domain"
 # Создать папку и перейти в неё
 mkdir -p "$FOLDER"
