@@ -14,7 +14,7 @@ TLS_DOMAIN="$1"
 FOLDER="TELEMT"
 
 echo "⚠️ Внимание! Этот скрипт выполнит команды на вашем сервере."
-read -p "Продолжить? (y/N) " confirm
+read -p "Продолжить? (y/N) " confirm < dev/tty
 if [ "$confirm" != "y" ]; then
     echo "Отмена."
     exit 1
