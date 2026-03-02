@@ -1,16 +1,32 @@
 #!/bin/bash
+# Скрипт установки Telemt через Docker
+# Автор: ваш ник
+# Основной Docker-образ: https://github.com/whn0thacked/telemt-docker
+# ⚠️ Внимание! Скрипт выполняет команды на сервере
+# Использование: sh install.sh <TLS_DOMAIN>
+
+# Проверка параметра TLS_DOMAIN
+if [ -z "$1" ]; then
+    echo "Использование: $0 <TLS_DOMAIN>"
+    exit 1
+fi
 
 TLS_DOMAIN="$1"
 FOLDER="TELEMT"
+
+echo "⚠️ Внимание! Этот скрипт выполнит команды на вашем сервере."
+read -p "Продолжить? (y/N) " confirm
+if [ "$confirm" != "y" ]; then
+    echo "Отмена."
+    exit 1
+fi
 
 # Создать папку и перейти в неё
 mkdir -p "$FOLDER"
 cd "$FOLDER" || exit
 
-# Случайный username (8 символов)
+# Генерация случайного username (8 символов) и секретного ключа
 USERNAME=$(tr -dc 'a-zA-Z0-9' </dev/urandom | head -c 8)
-
-# Secret через openssl
 SECRET=$(openssl rand -hex 16)
 
 # Создать telemt.toml
@@ -31,6 +47,8 @@ tls_domain = "$TLS_DOMAIN"
 [access.users]
 $USERNAME = "$SECRET"
 EOF
+
+# Создать docker-compose.yml
 cat > docker-compose.yml <<EOF
 services:
   telemt:
@@ -48,8 +66,6 @@ services:
 
     ports:
       - "443:443/tcp"
-      # If you enable metrics_port=9090 in config:
-      # - "127.0.0.1:9090:9090/tcp"
 
     # Hardening
     security_opt:
@@ -76,9 +92,13 @@ services:
         max-file: "3"
 EOF
 
-echo "tls_domain: $TLS_DOMAIN"
+
+echo "==============================="
+echo "TLS_DOMAIN: $TLS_DOMAIN"
 echo "username: $USERNAME"
 echo "secret: $SECRET"
+echo "==============================="
 
+# Запуск контейнера
 docker compose up -d
 docker compose logs -f
