@@ -2,7 +2,7 @@
 # Скрипт установки Telemt через Docker
 # Main repository https://github.com/An0nX/telemt-docker
 # ⚠️ Внимание! Скрипт выполняет команды на сервере
-# Использование: sh install.sh <TLS_DOMAIN>
+# Использование: sh install.sh 
 
 FOLDER="TELEMT"
 
